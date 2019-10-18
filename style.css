@@ -1,1 +1,62 @@
 
+.container-fluid{
+    height: 100px;
+    background-color:pink;
+}
+
+.col-12{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+
+.title{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: rgb(73, 73, 73);
+    padding-left: 40px;
+    padding-bottom: 20px;
+
+}
+
+.content{
+    margin-top:120px;
+    background-color:white;
+    
+}
+
+
+#display{
+    text-align: center;
+    font-size:20px;
+    height: 150px;
+    width: 800px;
+    margin-left: 65px;
+    border-radius: 10px;
+    
+
+}
+
+#generate{
+    background-color:pink;
+    color: white;
+    margin-left: 160px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 18px;
+    font-size: 25px;
+
+}
+
+#copy{
+    background-color: darkgray;
+    color: white;
+    margin-left: 110px;
+    padding: 10px;
+    border-radius: 18px;
+    font-size: 25px;
+
+
+}
+
