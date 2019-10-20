@@ -6,6 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>  
     <script src="script.js"></script>
     
     <title>Password Generator</title>
@@ -24,23 +27,159 @@
       <div class="row">
         <div class="col-12">
           <div class="content">
-            <h4 class="title pt-5">Generate a Password </h4>
+            <h4 class="title pt-5 text-left">Generate a Password </h4>
             <hr>
-            <input type="text" id="display" placeholder="Your Secure Password" style="border: 3px dashed rgb(170, 170, 170)">
-            <input type="range" min="8" max="128" id="slider">
+            <div class="text-center" id="generatedPassword">Your Secure Password</div>
             <hr>
-            <button id="generate">Generate Password</button>
-            <button id="copy">Copy to Clipboard</button>
-            <div id="length"></div>
+            <button id="submitSpecs" type="button" class="btn">Generate Password</button>
+            <button id="copy" onclick="copyPassword()">Copy to Clipboard</button>
+            <hr>
+            
           </div>
         </div>
       </div>
     </div>
 
 
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8">
+              <div class="contentSpecs">
+                <div class="headerSpecs">
+                    <h5 class="specs-title" id="passwordSpecs">Choose Your Password's Specifications!</h5>
+                    <hr>
+                </div>
 
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  </body>
+                <div class="bodySpecs">
+                  <!-- character length -->
+                    <div>
+                        <label for="passwordLength">Choose a password length (8-128 characters):</label>
+                        <input type="range" name="passwordLength" id="passwordLength" value="8" min="8" max="128" oninput="passwordLengthOutputId.value = passwordLength.value">
+                        <output name="passwordLengthOutput" id="passwordLengthOutputId">8</output>
+                      </div>
+                      <!-- number -->
+                      <div class="my-4 required-statement">Please check atleast 1 box.</div>
+                      <div>
+                        <label for="numbersChecked">Numbers (0 - 9): </label>
+                        <input type="checkbox" id="numbersChecked">
+                      </div>
+                      <!-- special character -->
+                      <div>
+                          <label for="specialCharsChecked">Special characters (!@#$%^&*?): </label>
+                          <input type="checkbox" id="specialCharsChecked">
+                        </div>
+                      <!-- lower case character -->
+                      <div>
+                          <label for="lowerCaseChars">Lower case letters (a-z): </label>
+                          <input type="checkbox" id="lowerCaseChars">
+                        </div>
+                      <!-- upper case character -->
+                      <div>
+                          <label for="upperCaseChars">Upper case letters (A-Z): </label>
+                          <input type="checkbox" id="upperCaseChars">
+                        </div>
+                    </div>
+
+                </div>
+              </div>
+
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+
+    <script type="text/javascript">
+
+var passwordSpecs = document.getElementById('passwordSpecs');
+
+var passwordLength = document.getElementById('passwordLength');
+var numbersChecked = document.getElementById('numbersChecked');
+var specialCharsChecked = document.getElementById('specialCharsChecked');
+var lowerCaseChars = document.getElementById('lowerCaseChars');
+var upperCaseChars = document.getElementById('upperCaseChars');
+
+var submitSpecs = document.getElementById("submitSpecs");
+
+  
+window.onload = function(){
+  passwordSpecs.classList.add("show");
+}    
+
+
+
+// Here is where the password is actually being made using the values we got from the inputs
+function generatePassword(numbers, specialChars, lowerCase, upperCase){
+  var length = passwordLength.value;
+  var characters = numbers + specialChars + lowerCase + upperCase;
+  console.log(characters);
+
+  var password = ""
+  for (var i = 0; i < length; ++i) {
+  password += characters.charAt(Math.floor(Math.random() * characters.length));        
+  }
+  document.getElementById("generatedPassword").innerHTML = password;
+}
+
+submitSpecs.addEventListener("click", function(){
+  passwordSpecs.classList.remove("show");
+
+  
+
+  // check for including numbers
+  if(numbersChecked.checked === true){
+    numbersChecked.value = true;
+    var numbers = "1234567890";
+  }else{
+    numbersChecked.value = false;
+    var numbers = ""
+  }
+
+  // check for including special characters
+ if(specialCharsChecked.checked === true){
+    specialCharsChecked.value = true;
+    var specialChars = "!@#$%^&*?";
+  }else{
+    specialCharsChecked.value = false;
+    var specialChars = "";
+  }
+
+  // check for including lower case characters
+  if(lowerCaseChars.checked === true){
+    lowerCaseChars.value = true;
+    var lowerCase = "abcdefghijklmnopqrstuvwxyz";
+  }else{
+    lowerCaseChars.value = false;
+    var lowerCase = "";
+  }
+
+  // check for including upper case characters
+  if(upperCaseChars.checked === true){
+    upperCaseChars.value = true;
+    var upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  }else{
+    upperCaseChars.value = false;
+    var upperCase = "";
+  }
+
+  generatePassword(numbers, specialChars, lowerCase, upperCase);
+});
+
+// function to copy password to clipboard//
+  
+
+function copyPassword(){
+    document.getElementById("generatedPassword").select();
+    document.execCommand("copy");
+    alert("Password copied to clipboard");
+  }
+      
+    </script>
+
+
+
+</body>
 </html>
